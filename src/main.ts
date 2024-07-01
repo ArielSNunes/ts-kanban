@@ -10,8 +10,19 @@ app.get('/boards', async function (req, res) {
 });
 
 app.get('/boards/:boardId/columns', async function (req, res) {
-    const boards = await connection.query('select * from columns where board_id = ?', [req.params.boardId]);
-    return res.json(boards);
+    const columns = await connection.query(
+        "select * from columns where board_id = $1",
+        [req.params.boardId]
+    );
+    return res.json(columns);
+});
+
+app.get('/boards/:boardId/columns/:columnId/cards', async function (req, res) {
+    const cards = await connection.query(
+        "select * from cards where column_id = $1",
+        [req.params.columnId]
+    );
+    return res.json(cards);
 });
 
 app.listen(3003);
