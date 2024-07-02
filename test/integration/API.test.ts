@@ -9,6 +9,7 @@ test('Deve retornar os quadros via API', async function () {
     expect(boards).toHaveLength(1);
     const [board] = boards;
     expect(board.name).toBe('Projeto 01');
+    // expect(board.estimative).toBe(6);
 })
 
 test('Deve retornar as colunas de um quadro via API', async function () {

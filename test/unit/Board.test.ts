@@ -1,8 +1,10 @@
-import { Board } from "../../src/entity/Board";
+import { Board } from "../../src/domain/entity/Board";
 
 test("Deve criar um quadro", function () {
     const board = new Board("Projeto 01");
+    board.estimative = 6;
     expect(board.name).toBe("Projeto 01");
+    expect(board.estimative).toBe(6);
 });
 
 test("Não deve criar um quadro sem nome", function () {
