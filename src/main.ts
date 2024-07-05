@@ -7,3 +7,7 @@ const expressAdapter = new ExpressAdapter();
 new BoardController(expressAdapter, connection);
 
 expressAdapter.listen(3003);
+
+process.on('exit', async () => {
+    await connection.close();
+});

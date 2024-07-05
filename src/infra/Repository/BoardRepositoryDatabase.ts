@@ -16,4 +16,15 @@ export class BoardRepositoryDatabase implements BoardRepository {
         }
         return boards;
     }
+
+    async findById(boardId: number): Promise<Board> {
+        const [boardData] = await this.connection.query(
+            'select name, id from boards where boards.id = $1',
+            [boardId]
+        );
+
+        if (!boardData) throw new Error('Board not found');
+
+        return new Board(boardData.name);
+    }
 }

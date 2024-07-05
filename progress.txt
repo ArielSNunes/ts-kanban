@@ -1,2 +1,2 @@
-Aula: Implementação do Projeto - Parte 1 e 2
-Tempo: 1h 40min
+Aula: Implementação do Projeto - Parte 3
+Tempo: 15m

@@ -13,4 +13,8 @@ export class BoardRepositoryMemory implements BoardRepository {
     async findAll(): Promise<Board[]> {
         return this.boards;
     }
+
+    async findById(boardId: number): Promise<Board> {
+        return this.boards[boardId];
+    }
 }
