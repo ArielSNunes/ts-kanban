@@ -8,12 +8,16 @@ export class ColumnRepositoryDatabase implements ColumnRepository {
 
     async findAllByBoardId(boardId: number): Promise<Column[]> {
         const columnsData = await this.connection.query(
-            "select name, has_estimative from columns where board_id = $1",
+            "select id, name, has_estimative from columns where board_id = $1",
             [boardId]
         );
         const columns: Column[] = [];
         for (const columnData of columnsData) {
-            columns.push(new Column(columnData.name, columnData.has_estimative));
+            columns.push(new Column(
+                columnData.id,
+                columnData.name,
+                columnData.has_estimative
+            ));
         }
         return columns;
     }

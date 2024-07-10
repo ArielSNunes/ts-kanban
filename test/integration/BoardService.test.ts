@@ -18,6 +18,7 @@ test('Deve listar os quadros', async function () {
     expect(boards).toHaveLength(1);
     const [board] = boards;
     expect(board.name).toBe('Projeto 01');
+    await connection.close();
     // expect(board.estimative).toBe(6);
 });
 
@@ -42,5 +43,12 @@ test('Deve listar um quadro', async function () {
     expect(b.estimative).toBe(0);
     expect(c.estimative).toBe(0);
     expect(board.estimative).toBe(6);
+    const [cardA, cardB, cardC] = a.cards;
+    expect(cardA.title).toBe('Atividade 01');
+    expect(cardB.title).toBe('Atividade 02');
+    expect(cardC.title).toBe('Atividade 03');
+    expect(cardA.estimative).toBe(3);
+    expect(cardB.estimative).toBe(2);
+    expect(cardC.estimative).toBe(1);
     await connection.close();
 })
