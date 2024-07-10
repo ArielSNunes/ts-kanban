@@ -1,3 +1,6 @@
+import { BoardRepository } from "../../domain/repository/BoardRepository";
+import { CardRepository } from "../../domain/repository/CardRepository";
+import { ColumnRepository } from "../../domain/repository/ColumnRepository";
 import { BoardService } from "../../service/BoardService";
 import CardService from "../../service/CardService";
 import { ColumnService } from "../../service/ColumnService";
@@ -8,23 +11,30 @@ import { Connection } from "../database/Connection";
 import { Http } from "../http/Http";
 
 export class BoardController {
-    constructor(readonly http: Http, readonly connection: Connection) {
+    constructor(
+        readonly http: Http,
+        readonly connection: Connection,
+        readonly boardRepository: BoardRepository,
+        readonly columnRepository: ColumnRepository,
+        readonly cardRepository: CardRepository
+    ) {
         http.route('get', '/boards', async function (params: any, body: any) {
-            const boardRepository = new BoardRepositoryDatabase(connection);
-            const boardService = new BoardService(boardRepository);
+            const boardService = new BoardService(
+                boardRepository,
+                columnRepository,
+                cardRepository
+            );
             const boards = await boardService.getBoards();
             return boards;
         });
 
         http.route('get', '/boards/:boardId/columns', async function (params: any, body: any) {
-            const columnRepository = new ColumnRepositoryDatabase(connection);
             const columnService = new ColumnService(columnRepository);
             const columns = await columnService.getColumns(parseInt(params.boardId));
             return columns;
         });
 
         http.route('get', '/boards/:boardId/columns/:columnId/cards', async function (params: any, body: any) {
-            const cardRepository = new CardRepositoryDatabase(connection);
             const cardService = new CardService(cardRepository);
             const cards = await cardService.getCards(parseInt(params.columnId));
             return cards;

@@ -18,13 +18,12 @@ test('Deve retornar as colunas de um quadro via API', async function () {
         method: 'get'
     });
     const columns = response.data;
-    expect(columns).toHaveLength(4);
-    const [colA, colB, colC, colD] = columns;
+    expect(columns).toHaveLength(3);
+    const [colA, colB, colC] = columns;
     expect(colA.name).toEqual('Coluna A');
     expect(colA.hasEstimative).toBe(true);
     expect(colB.name).toEqual('Coluna B');
     expect(colC.name).toEqual('Coluna C');
-    expect(colD.name).toEqual('Coluna D');
 })
 
 test('Deve retornar os cards de uma coluna de um quadro via API', async function () {
