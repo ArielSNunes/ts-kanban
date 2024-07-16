@@ -28,6 +28,17 @@ export class BoardController {
             return boards;
         });
 
+        http.route('get', '/boards/:boardId', async function (params: any, body: any) {
+            console.log(params)
+            const boardService = new BoardService(
+                boardRepository,
+                columnRepository,
+                cardRepository
+            );
+            const board = await boardService.getBoard(params.boardId);
+            return board;
+        });
+
         http.route('get', '/boards/:boardId/columns', async function (params: any, body: any) {
             const columnService = new ColumnService(columnRepository);
             const columns = await columnService.getColumns(parseInt(params.boardId));
