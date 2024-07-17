@@ -1,5 +1,6 @@
 export class Column {
     constructor(
+        readonly boardId: number,
         readonly id: number,
         readonly name: string,
         readonly hasEstimative: boolean

@@ -11,7 +11,7 @@ export class BoardRepositoryDatabase implements BoardRepository {
         const boardsData = await this.connection.query('select name, id from boards', []);
         const boards: Board[] = [];
         for (const boardData of boardsData) {
-            const board = new Board(boardData.name);
+            const board = new Board(boardData.id, boardData.name);
             boards.push(board);
         }
         return boards;
@@ -25,6 +25,6 @@ export class BoardRepositoryDatabase implements BoardRepository {
 
         if (!boardData) throw new Error('Board not found');
 
-        return new Board(boardData.name);
+        return new Board(boardData.id, boardData.name);
     }
 }

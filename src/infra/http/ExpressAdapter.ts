@@ -11,7 +11,8 @@ export class ExpressAdapter implements Http {
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
             res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
             next();
-        })
+        });
+        this.app.use(express.json());
     }
 
     route(method: string, url: string, callback: Function): void {

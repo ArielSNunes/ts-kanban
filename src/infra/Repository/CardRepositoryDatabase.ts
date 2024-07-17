@@ -7,12 +7,17 @@ export class CardRepositoryDatabase implements CardRepository {
 
     async findAllByColumnId(columnId: number): Promise<Card[]> {
         const cardsData = await this.connection.query(
-            "select title, estimative from cards where column_id = $1",
+            "select column_id, id, title, estimative from cards where column_id = $1",
             [columnId]
         );
         const cards: Card[] = [];
         for (const cardData of cardsData) {
-            cards.push(new Card(cardData.title, cardData.estimative));
+            cards.push(new Card(
+                cardData.column_id,
+                cardData.id,
+                cardData.title,
+                cardData.estimative
+            ));
         }
         return cards;
     }

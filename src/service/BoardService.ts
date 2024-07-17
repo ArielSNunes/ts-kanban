@@ -1,6 +1,5 @@
 import { Board } from "../domain/entity/Board";
 import { Card } from "../domain/entity/Card";
-import { CardOutput } from "../domain/output/CardOutput";
 import { ColumnOutput } from "../domain/output/ColumnOutput";
 import { GetBoardOutput } from "../domain/output/GetBoardOutput";
 import { BoardRepository } from "../domain/repository/BoardRepository";
@@ -23,6 +22,7 @@ export class BoardService {
     async getBoard(boardId: number): Promise<GetBoardOutput> {
         const board = await this.boardRepository.findById(boardId);
         const getBoardOutput: GetBoardOutput = {
+            id: board.id,
             name: board.name,
             estimative: 0,
             columns: []
@@ -32,6 +32,7 @@ export class BoardService {
         for (const column of columns) {
             const cards = await this.cardRepository.findAllByColumnId(column.id);
             const columnOutput: ColumnOutput = {
+                id: column.id,
                 cards: [],
                 estimative: 0,
                 hasEstimative: column.hasEstimative,
@@ -39,7 +40,11 @@ export class BoardService {
             };
             for (let card of cards) {
                 columnOutput.estimative += card.estimative;
-                columnOutput.cards.push(new Card(card.title, card.estimative));
+                columnOutput.cards.push({
+                    id: card.id,
+                    title: card.title,
+                    estimative: card.estimative
+                });
             }
             getBoardOutput.columns.push(columnOutput);
             getBoardOutput.estimative += columnOutput.estimative;

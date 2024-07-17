@@ -6,7 +6,7 @@ export class BoardRepositoryMemory implements BoardRepository {
 
     constructor() {
         this.boards = [
-            new Board('Projeto 01')
+            new Board(1, 'Projeto 01')
         ];
     }
 

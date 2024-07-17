@@ -4,9 +4,6 @@ import { ColumnRepository } from "../../domain/repository/ColumnRepository";
 import { BoardService } from "../../service/BoardService";
 import CardService from "../../service/CardService";
 import { ColumnService } from "../../service/ColumnService";
-import { BoardRepositoryDatabase } from "../Repository/BoardRepositoryDatabase";
-import { CardRepositoryDatabase } from "../Repository/CardRepositoryDatabase";
-import { ColumnRepositoryDatabase } from "../Repository/ColumRepositoryDatabase";
 import { Connection } from "../database/Connection";
 import { Http } from "../http/Http";
 
@@ -29,7 +26,6 @@ export class BoardController {
         });
 
         http.route('get', '/boards/:boardId', async function (params: any, body: any) {
-            console.log(params)
             const boardService = new BoardService(
                 boardRepository,
                 columnRepository,
@@ -43,6 +39,27 @@ export class BoardController {
             const columnService = new ColumnService(columnRepository);
             const columns = await columnService.getColumns(parseInt(params.boardId));
             return columns;
+        });
+
+        http.route('post', '/boards/:boardId/columns', async function (params: any, body: any) {
+            const columnService = new ColumnService(columnRepository);
+            const columnId = await columnService.saveColumn({
+                boardId: body.boardId,
+                hasEstimative: body.hasEstimative,
+                name: body.name
+            });
+            return columnId;
+        });
+
+        http.route('get', '/boards/:boardId/columns/:columnId', async function (params: any, body: any) {
+            const columnService = new ColumnService(columnRepository);
+            const columns = await columnService.getColumn(parseInt(params.columnId));
+            return columns;
+        });
+
+        http.route('delete', '/boards/:boardId/columns/:columnId', async function (params: any, body: any) {
+            const columnService = new ColumnService(columnRepository);
+            await columnService.deleteColumn(parseInt(params.columnId));
         });
 
         http.route('get', '/boards/:boardId/columns/:columnId/cards', async function (params: any, body: any) {
