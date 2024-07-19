@@ -40,7 +40,7 @@ test('Deve retornar as colunas de um quadro via API', async function () {
     expect(colC.id).toEqual('3');
 })
 
-test('Deve retornar as colunas de um quadro via API', async function () {
+test('Deve salvar uma coluna', async function () {
     const saveResponse = await axios({
         url: 'http://localhost:3003/boards/1/columns',
         method: 'post',
@@ -55,20 +55,17 @@ test('Deve retornar as colunas de um quadro via API', async function () {
 
     const response = await axios({
         url: `http://localhost:3003/boards/1/columns/${columnId}`,
-        method: 'post',
-        data: {
-            boardId: 1,
-            name: 'Todo',
-            hasEstimative: true
-        }
+        method: 'get',
     });
     const column = response.data;
+
     expect(column.name).toBe('Todo');
+
     await axios({
         url: `http://localhost:3003/boards/1/columns/${columnId}`,
         method: 'delete'
     });
-})
+});
 
 test('Deve retornar os cards de uma coluna de um quadro via API', async function () {
     const response = await axios({
